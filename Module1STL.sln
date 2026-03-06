@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CompareContainers", "CompareContainers\CompareContainers.vcxproj", "{BA0BB14F-3266-4957-A472-608F18BE21DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Debug|x64.ActiveCfg = Debug|x64
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Debug|x64.Build.0 = Debug|x64
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Debug|x86.ActiveCfg = Debug|Win32
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Debug|x86.Build.0 = Debug|Win32
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Release|x64.ActiveCfg = Release|x64
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Release|x64.Build.0 = Release|x64
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Release|x86.ActiveCfg = Release|Win32
+		{BA0BB14F-3266-4957-A472-608F18BE21DA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3B34921-809C-4993-AB00-38732B203D7F}
+	EndGlobalSection
+EndGlobal
