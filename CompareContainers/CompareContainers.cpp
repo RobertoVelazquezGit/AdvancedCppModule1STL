@@ -73,3 +73,27 @@ int main()
 // Release
 //map insert time : 541 ms
 //unordered_map insert time : 86 ms
+
+
+/*
+Why steady_clock instead of high_resolution_clock?
+
+1. steady_clock is monotonic
+   - Time never goes backwards.
+   - The clock always moves forward.
+
+2. Not affected by system clock adjustments
+   - System time changes (NTP sync, user changing the clock, daylight saving)
+     will not affect steady_clock.
+
+3. Reliable for measuring time intervals
+   - Ideal for benchmarking and performance measurements.
+
+4. high_resolution_clock is not guaranteed to be steady
+   - On many implementations it is just an alias of system_clock
+     or steady_clock depending on the compiler and platform.
+
+5. steady_clock guarantees stable duration measurements
+   - Even if the resolution is slightly lower, the measurement is safer
+     for elapsed time calculations.
+*/
