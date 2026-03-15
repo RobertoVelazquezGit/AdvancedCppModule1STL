@@ -13,7 +13,7 @@
 #include <algorithm>
 class ContainerBenchmark {
 private:
-    static const int DATA_SIZE = 50000;
+    static const int DATA_SIZE = 50000;  // Try 100000 and 1000
     std::mt19937 rng{ std::random_device{}() };
     std::uniform_int_distribution<int> dist{ 1, 100000 };
     // Helper function to measure execution time
