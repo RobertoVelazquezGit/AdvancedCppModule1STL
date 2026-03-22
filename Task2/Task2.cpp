@@ -41,6 +41,8 @@ private:
         testUsers.reserve(USER_COUNT);
         lookupIds.reserve(USER_COUNT / 10);
 
+        // Notice an id is always [1, USER_COUNT]
+
         // Generate test users
         for (int i = 1; i <= USER_COUNT; ++i) {
             testUsers.emplace_back(i, "user" + std::to_string(i), "user" + std::to_string(i) + "@company.com");
@@ -49,7 +51,7 @@ private:
         // Generate random lookup IDs
         std::uniform_int_distribution<int> idDist(1, USER_COUNT);
         for (int i = 0; i < USER_COUNT / 10; ++i) {
-            lookupIds.push_back(idDist(rng));
+			lookupIds.push_back(idDist(rng));  // an id may be repeated, simulating real-world access patterns
         }
 
         // Shuffle for realistic access pattern
@@ -206,8 +208,8 @@ public:
         double rangeQueryTime = measureTime([&]() {
             volatile int count = 0;
             // Count elements between 25000 and 75000
-            auto lower = orderedSet.lower_bound(25000);
-            auto upper = orderedSet.upper_bound(75000);
+            auto lower = orderedSet.lower_bound(25000);  // iterator to first element >= x
+			auto upper = orderedSet.upper_bound(75000);  // iterator to first element > x
             for (auto it = lower; it != upper; ++it) {
                 count++;
             }
