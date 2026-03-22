@@ -1,0 +1,175 @@
+std::priority_queue:
+NO es una cola normal
+SIEMPRE mantiene el orden automáticamente
+Internamente usa un heap (montículo)
+Un priority_queue:
+❌ NO está ordenado completamente
+✅ SOLO garantiza que el top es el mejor
+✅ Internamente es un heap binario
+Piensa en priority_queue como:
+“Siempre puedo acceder al mejor elemento en O(1),
+y reorganizar en O(log n)”
+
+/***************************************************************************/
+
+std::less<int> y std::greater<int>
+Son clases (structs) de la STL que funcionan como functores
+👉 es decir: objetos que se comportan como funciones
+
+#include <iostream>
+#include <functional>
+
+int main() {
+    std::less<int> menor;
+    std::greater<int> mayor;
+
+    std::cout << menor(3, 5) << std::endl;  // 1 (true)
+    std::cout << mayor(3, 5) << std::endl;  // 0 (false)
+}
+
+/***************************************************************************/
+
+1. Ejemplo básico (máximo primero)
+
+Por defecto, std::priority_queue es un max-heap, es decir, el mayor elemento siempre está arriba.
+Usa std::less<int>
+
+#include <iostream>
+#include <queue>
+
+int main() {
+    std::priority_queue<int> pq;
+
+    pq.push(10);
+    pq.push(5);
+    pq.push(20);
+
+    while (!pq.empty()) {
+        std::cout << pq.top() << std::endl;
+        pq.pop();
+    }
+
+    return 0;
+}
+
+Salida:
+20
+10
+5
+
+/***************************************************************************/
+
+2. Min-heap (el menor primero)
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+int main() {
+    std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
+
+    pq.push(10);
+    pq.push(5);
+    pq.push(20);
+
+    while (!pq.empty()) {
+        std::cout << pq.top() << std::endl;
+        pq.pop();
+    }
+
+    return 0;
+}
+
+Salida:
+5
+10
+20
+
+Forma general
+std::priority_queue<T, Container, Compare> pq;
+Tiene 3 parámetros de plantilla:
+T → tipo de los elementos
+Container → contenedor interno (por defecto std::vector<T>)
+Compare → función de comparación (por defecto std::less<T>)
+
+Compare
+en realidad NO es una función normal, sino un tipo que actúa como función, es decir:
+👉 un functor (objeto con operator() sobrecargado)
+Es algo así
+template <typename T>
+struct less {
+    bool operator()(const T& a, const T& b) const {
+        return a < b;
+    }
+};
+Pero se usa como si fuera una función:
+std::less<int> comp;
+comp(3, 5); // true
+
+Punto clave (muy importante)
+El comparador responde a esta pregunta:
+¿Debe a ir después que b en la prioridad?
+👉 significa:
+3 tiene menor prioridad que 5
+✔ Resultado: 5 sube arriba (max-heap)
+
+
+/**********************************************************************/
+3. Con pares (orden por el primer elemento)
+Se ordena por .first (y luego .second si hay empate).
+
+#include <iostream>
+#include <queue>
+
+int main() {
+    std::priority_queue<std::pair<int, int>> pq;
+
+    pq.push({1, 100});
+    pq.push({3, 200});
+    pq.push({2, 150});
+
+    while (!pq.empty()) {
+        auto p = pq.top();
+        std::cout << p.first << " " << p.second << std::endl;
+        pq.pop();
+    }
+
+    return 0;
+}
+
+/**********************************************************************/
+4. Con estructura personalizada
+
+#include <iostream>
+#include <queue>
+
+struct Persona {
+    int edad;
+};
+
+struct Comparador {
+    bool operator()(const Persona& a, const Persona& b) {
+        return a.edad < b.edad; // mayor edad tiene prioridad
+    }
+};
+
+int main() {
+    std::priority_queue<Persona, std::vector<Persona>, Comparador> pq;
+
+    pq.push({30});
+    pq.push({20});
+    pq.push({40});
+
+    while (!pq.empty()) {
+        std::cout << pq.top().edad << std::endl;
+        pq.pop();
+    }
+
+    return 0;
+}
+
+Salida:
+40
+30
+20
+
