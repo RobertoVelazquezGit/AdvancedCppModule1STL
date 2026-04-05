@@ -80,11 +80,11 @@ public:
         std::cout << "Traditional STL Approaches:" << std::endl;
 
         double traditionalFindTime = measureTime([&]() {
-            auto it = std::find_if(transactions.begin(), transactions.end(),
+            auto it = std::find_if(this->transactions.begin()/*transactions.begin()*/, transactions.end(),
                 [targetCustomer](const CustomerTransaction& t) {
                     return t.customerId == targetCustomer;
                 });
-            volatile bool found = (it != transactions.end());
+			volatile bool found = (it != transactions.end());  // Prevent optimization  
             });
 
         // Traditional STL count_if for analysis
