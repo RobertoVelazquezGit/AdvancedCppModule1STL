@@ -206,7 +206,7 @@ public:
         double amountSortTime = measureTime([&]() {
             std::sort(sortByAmount.begin(), sortByAmount.end(),
                 [](const CustomerTransaction& a, const CustomerTransaction& b) {
-                    return a.amount > b.amount;
+					return a.amount > b.amount;  // sorted by amount descending
                 });
             });
 
@@ -214,7 +214,7 @@ public:
         double customerSortTime = measureTime([&]() {
             std::sort(sortByCustomer.begin(), sortByCustomer.end(),
                 [](const CustomerTransaction& a, const CustomerTransaction& b) {
-                    return a.customerId < b.customerId;
+					return a.customerId < b.customerId; // sorted by customer ID ascending
                 });
             });
 
@@ -225,6 +225,14 @@ public:
         std::cout << "  Top 5 transactions by amount:" << std::endl;
         for (int i = 0; i < std::min(5, static_cast<int>(sortByAmount.size())); ++i) {
             const auto& t = sortByAmount[i];
+            std::cout << "    Customer " << t.customerId << ": $"
+                << std::fixed << std::setprecision(2) << t.amount
+                << " (" << t.category << ")" << std::endl;
+        }
+
+        std::cout << "  Top 5 transactions by customer ID:" << std::endl;
+        for (int i = 0; i < std::min(5, static_cast<int>(sortByCustomer.size())); ++i) {
+            const auto& t = sortByCustomer[i];
             std::cout << "    Customer " << t.customerId << ": $"
                 << std::fixed << std::setprecision(2) << t.amount
                 << " (" << t.category << ")" << std::endl;
