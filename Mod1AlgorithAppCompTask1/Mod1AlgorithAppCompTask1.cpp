@@ -106,7 +106,7 @@ public:
 
         // Range-based find
         double rangeFindTime = measureTime([&]() {
-            auto result = rng::find_if(transactions,
+			auto result = rng::find_if(transactions,  // does not need .begin() and .end(), are not lazy evaluated
                 [targetCustomer](const CustomerTransaction& t) {
                     return t.customerId == targetCustomer;
                 });
@@ -166,6 +166,7 @@ public:
         std::cout << "\nC++20 ranges transform view:" << std::endl;
 
         double rangeTransformTime = measureTime([&]() {
+			// workingCopy is not modified, we create a view that applies the transformation lazily
             auto discountedView = workingCopy | views::transform([](const CustomerTransaction& t) {
                 return t.amount * 0.9;
                 });
@@ -185,7 +186,7 @@ public:
             return t.amount * 0.9;
             }) | views::filter([](double amount) {
                 return amount > 100.0;
-                }) | views::take(5);
+				}) | views::take(5);  // take only the first 5 results that are greater than $100 after discount
 
             std::cout << "  First 5 discounted amounts > $100: ";
             for (auto amount : lazyTransform) {
@@ -244,7 +245,7 @@ public:
         std::vector<CustomerTransaction> rangeSortCopy = transactions;
         double rangeSortTime = measureTime([&]() {
             rng::sort(rangeSortCopy, [](const CustomerTransaction& a, const CustomerTransaction& b) {
-                return a.amount > b.amount;
+                return a.amount > b.amount; 
                 });
             });
 
