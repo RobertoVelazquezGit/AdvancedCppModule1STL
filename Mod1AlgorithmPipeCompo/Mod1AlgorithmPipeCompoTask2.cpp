@@ -75,7 +75,7 @@ public:
 		// Pipeline Step 1: Filter high-revenue sales (>$3000)
 		std::vector<SalesData> highRevenueSales;
 		std::copy_if(salesData.begin(), salesData.end(),
-			std::back_inserter(highRevenueSales),
+			std::back_inserter(highRevenueSales),  // the same as highRevenueSales.push_back(value);
 			[](const SalesData& s) { return s.revenue > 3000.0; });
 
 		std::cout << "Step 1 - High revenue sales: " << highRevenueSales.size()
@@ -97,7 +97,8 @@ public:
 		double avgPricePerUnit = std::accumulate(pricesPerUnit.begin(), pricesPerUnit.end(), 0.0)
 			/ pricesPerUnit.size();
 
-		auto [minPrice, maxPrice] = std::minmax_element(pricesPerUnit.begin(), pricesPerUnit.end());
+		// The type of minPrice and maxPrice is std::vector<double>::iterator, so we can use auto to deduce it	
+		auto [minPrice, maxPrice] = std::minmax_element(pricesPerUnit.begin(), pricesPerUnit.end());  // structured binding for min and max	
 
 		std::cout << "Step 3 - Statistics calculated:" << std::endl;
 		std::cout << "  Total high-revenue sales: $" << std::fixed << std::setprecision(2)
@@ -109,10 +110,10 @@ public:
 		std::map<std::string, double> regionTotals;
 		std::for_each(highRevenueSales.begin(), highRevenueSales.end(),
 			[&regionTotals](const SalesData& s) {
-				regionTotals[s.region] += s.revenue;
+				regionTotals[s.region] += s.revenue;  // created automatically if key doesn't exist, then add revenue to it	
 			});
 
-		auto topRegion = std::max_element(regionTotals.begin(), regionTotals.end(),
+		auto topRegion = std::max_element(regionTotals.begin(), regionTotals.end(),  // return an iterator to the element with the maximum value in the range [first, last)	
 			[](const auto& a, const auto& b) {
 				return a.second < b.second;
 			});
@@ -124,7 +125,7 @@ public:
 		std::vector<SalesData> sortedSales = highRevenueSales;
 		std::sort(sortedSales.begin(), sortedSales.end(),
 			[](const SalesData& a, const SalesData& b) {
-				return a.revenue > b.revenue;
+				return a.revenue > b.revenue;  // order by revenue descending	
 			});
 
 		std::cout << "Step 5 - Top 3 high-revenue products:" << std::endl;
