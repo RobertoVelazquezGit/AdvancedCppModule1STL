@@ -146,7 +146,9 @@ public:
 			| views::transform([](const SalesData& s) { return s; }); // Keep full data for analysis
 
 		// Convert to vector for further analysis (ranges are lazy)
-		std::vector<SalesData> highRevenueSales(highRevenueAnalysis.begin(), highRevenueAnalysis.end());
+		// construct a vector from the range by iterating through it with begin and end iterators
+		// it is then when the pipeline is actually executed and the filtering and transformation happen at this point, not before	
+		std::vector<SalesData> highRevenueSales(highRevenueAnalysis.begin(), highRevenueAnalysis.end());  
 
 		std::cout << "Pipeline filtered to " << highRevenueSales.size() << " high-revenue sales" << std::endl;
 
@@ -161,7 +163,7 @@ public:
 			[](double sum, const SalesData& s) { return sum + s.revenue; });
 
 		double avgPrice = std::accumulate(priceVector.begin(), priceVector.end(), 0.0) / priceVector.size();
-		auto [minPrice, maxPrice] = rng::minmax_element(priceVector);
+		auto [minPrice, maxPrice] = rng::minmax_element(priceVector);  // give iterators to the min and max elements in the range [first, last)	
 
 		std::cout << "Ranges pipeline results:" << std::endl;
 		std::cout << "  Total revenue: $" << std::fixed << std::setprecision(2) << totalRevenue << std::endl;
@@ -177,7 +179,7 @@ public:
 				| views::filter([&region](const SalesData& s) { return s.region == region; })
 				| views::transform([](const SalesData& s) { return std::make_pair(s.product, s.revenue); });
 
-			if (!topProductInRegion.empty()) {
+			if (!topProductInRegion.empty()) {  // range evaluation happens here when we check if the range is empty, and then again when we find the max element	
 				auto maxProduct = rng::max_element(topProductInRegion,
 					[](const auto& a, const auto& b) { return a.second < b.second; });
 #if _MSVC_LANG >= 202002L
@@ -200,7 +202,7 @@ public:
 			| views::transform([](const SalesData& s) {
 			return s.product + " (" + s.region + "): $" + std::to_string(s.revenue);
 				})
-			| views::take(5);
+			| views::take(5);  // take up to 5 results for demonstration	
 
 		for (const auto& result : complexPipeline) {
 			std::cout << "  " << result << std::endl;
@@ -242,7 +244,10 @@ public:
 				| views::transform([](const SalesData& s) { return s.pricePerUnit(); });
 
 			auto result = std::vector(pipeline.begin(), pipeline.end());
-			rng::sort(result, std::greater<double>());
+			rng::sort(result, std::greater<double>());  // std::ranges::sort with a custom comparator for descending order, does not need iterators since it operates directly on the range	
+			// A range i c++ 20 is a view of a sequence of elements defined by a pair of iterators,
+			// so we can directly pass the range to the sort algorithm without needing to specify the begin and end iterators explicitly.
+			// The sort algorithm will internally use the range's begin and end iterators to perform the sorting operation.	
 			});
 
 		std::cout << "C++20 Ranges pipeline: " << rangesTime << " ms" << std::endl;
