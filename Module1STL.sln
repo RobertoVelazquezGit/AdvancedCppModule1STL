@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mod1AlgorithAppCompTask1", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mod1AlgorithmPipeCompoTask2", "Mod1AlgorithmPipeCompo\Mod1AlgorithmPipeCompo.vcxproj", "{CA2AB297-27AD-42D9-8B8B-AAF2B1D56E45}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mod1AlgorithmPipelineTask3", "Mod1AlgorithmPipelineTask3\Mod1AlgorithmPipelineTask3.vcxproj", "{86A8EB68-11F1-4747-85DE-858A32775F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{CA2AB297-27AD-42D9-8B8B-AAF2B1D56E45}.Release|x64.Build.0 = Release|x64
 		{CA2AB297-27AD-42D9-8B8B-AAF2B1D56E45}.Release|x86.ActiveCfg = Release|Win32
 		{CA2AB297-27AD-42D9-8B8B-AAF2B1D56E45}.Release|x86.Build.0 = Release|Win32
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Debug|x64.ActiveCfg = Debug|x64
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Debug|x64.Build.0 = Debug|x64
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Debug|x86.ActiveCfg = Debug|Win32
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Debug|x86.Build.0 = Debug|Win32
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Release|x64.ActiveCfg = Release|x64
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Release|x64.Build.0 = Release|x64
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Release|x86.ActiveCfg = Release|Win32
+		{86A8EB68-11F1-4747-85DE-858A32775F17}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
