@@ -1,4 +1,10 @@
-﻿// ============================================================================
+﻿// To fix the file's spaces
+// sed -i 's/\xC2\xA0/ /g' Task3.cpp
+// To compile
+// g++ -std=c++17 -O2 -Wall -Wextra Task3.cpp -o Task3
+
+
+// ============================================================================
 // STL Algorithm Pipeline for Data Processing - Solution Files
 // Complete implementation demonstrating STL algorithms with function objects
 // and simple predicates for efficient data processing
@@ -183,10 +189,14 @@ public:
             validTransactions.end(), isHighValue);
 
         // Find min and max transactions using minmax_element with comparison function
+        //template< class ForwardIt, class Compare >
+        //std::pair<ForwardIt, ForwardIt>
+        //    minmax_element(ForwardIt first, ForwardIt last, Compare comp);
+		// comp(a, b) should return true if a is less than b, which means that minmax_element will find the minimum and maximum based on the finalTotal field of the Transaction struct 
         auto [minIt, maxIt] = minmax_element(validTransactions.begin(),
             validTransactions.end(),
             [](const Transaction& a, const Transaction& b) {
-                return a.finalTotal < b.finalTotal;
+				return a.finalTotal < b.finalTotal;  // returns true if a is less than b, which means minmax_element will find the minimum and maximum based on finalTotal  
             });
 
         // Calculate average transaction value
@@ -234,6 +244,14 @@ public:
             //topTransactions.begin() + std::min(10ul, topTransactions.size()),
             topTransactions.begin() + std::min(10, static_cast<int>(topTransactions.size())),
             topTransactions.end(), compareByFinalTotal);
+        //topTransactions.begin()                → first
+        //    topTransactions.begin() + N            → middle
+        //    topTransactions.end()                  → last
+        //    compareByFinalTotal                    → comp
+		// range [first, middle) contains the N smallest elements in sorted order   
+		// range [middle, last) contains the remaining elements in unspecified order    
+		// if size < 10, all elements are sorted in the range [first, last), no problem with partial_sort(begin, end, end, comp);
+
 
         cout << "\nTop 10 transactions identified using partial_sort for efficiency" << endl;
 
@@ -267,7 +285,7 @@ public:
      */
     void generateTestData(int count) {
         random_device rd;
-        mt19937 gen(rd());
+		mt19937 gen(rd());  // because rd is a functor, it overides operator() to generate random numbers, so we can use it to seed the mt19937 generator   
         uniform_real_distribution<> amountDist(10.0, 2000.0);
         uniform_int_distribution<> customerDist(1, 100);
 
@@ -297,59 +315,59 @@ public:
         // Generate test data
         cout << "Generating test dataset..." << endl;
         generateTestData(DATASET_SIZE);
-        cout << "✓ Generated " << rawTransactions.size() << " transactions" << endl;
+        cout << "- Generated " << rawTransactions.size() << " transactions" << endl;
 
         // Stage 1: Data filtering
         cout << "\nStage 1: Data validation and filtering..." << endl;
         filterValidTransactions();
-        cout << "✓ Filtering complete" << endl;
+        cout << "- Filtering complete" << endl;
 
         // Stage 2: Data transformation
         cout << "\nStage 2: Calculating derived values..." << endl;
         calculateDerivedValues();
-        cout << "✓ Transformation complete" << endl;
+        cout << "- Transformation complete" << endl;
 
         // Stage 3: Statistical analysis
         cout << "\nStage 3: Statistical analysis..." << endl;
         generateStatistics();
-        cout << "✓ Statistics complete" << endl;
+        cout << "- Statistics complete" << endl;
 
         // Stage 4: Sorting and ranking
         cout << "\nStage 4: Sorting and ranking..." << endl;
         sortAndRank();
-        cout << "✓ Sorting complete" << endl;
+        cout << "- Sorting complete" << endl;
 
         cout << "\n=== Algorithm Performance Summary ===" << endl;
-        cout << "✓ copy_if: Efficient filtering using function objects" << endl;
-        cout << "✓ transform: In-place calculations with transformation objects" << endl;
-        cout << "✓ accumulate: Statistical aggregation with helper functions" << endl;
-        cout << "✓ count_if: Conditional counting using predicate objects" << endl;
-        cout << "✓ minmax_element: Range analysis with simple comparisons" << endl;
-        cout << "✓ sort/partial_sort: Optimized ordering with comparison functions" << endl;
+        cout << "- copy_if: Efficient filtering using function objects" << endl;
+        cout << "- transform: In-place calculations with transformation objects" << endl;
+        cout << "- accumulate: Statistical aggregation with helper functions" << endl;
+        cout << "- count_if: Conditional counting using predicate objects" << endl;
+        cout << "- minmax_element: Range analysis with simple comparisons" << endl;
+        cout << "- sort/partial_sort: Optimized ordering with comparison functions" << endl;
     }
 };
 
 /*
 VALIDATION CHECKLIST COMPLETED:
-✓ STL algorithms used appropriately instead of manual loops
+- STL algorithms used appropriately instead of manual loops
 
-✓ Function objects implemented for validation and transformation logic
+- Function objects implemented for validation and transformation logic
 
-✓ copy_if and count_if used effectively for data filtering and statistics
+- copy_if and count_if used effectively for data filtering and statistics
 
-✓ std::transform applied with CalculateDerivedValues function object
+- std::transform applied with CalculateDerivedValues function object
 
-✓ Statistical analysis uses accumulate, count_if, minmax_element with simple helpers
+- Statistical analysis uses accumulate, count_if, minmax_element with simple helpers
 
-✓ Sorting algorithms implemented with comparison functions for multi-criteria ordering
+- Sorting algorithms implemented with comparison functions for multi-criteria ordering
 
-✓ Code demonstrates proper algorithm selection using readable function objects
+- Code demonstrates proper algorithm selection using readable function objects
 
-✓ Edge cases handled and meaningful results displayed with clear formatting
+- Edge cases handled and meaningful results displayed with clear formatting
 
-✓ Simple predicates and function objects used instead of complex expressions
+- Simple predicates and function objects used instead of complex expressions
 
-✓ Performance benefits demonstrated through appropriate algorithm choices
+- Performance benefits demonstrated through appropriate algorithm choices
 */
 
 /**
@@ -376,19 +394,19 @@ Demonstrating algorithm usage with function objects and simple predicates
 
 === STL Algorithm Pipeline Processing ===
 Generating test dataset...
-✓ Generated 1000 transactions
+- Generated 1000 transactions
 
 Stage 1: Data validation and filtering...
 Original transactions: 1000
 Valid transactions: 947
 Invalid transactions: 53
 Validation success rate: 94.7%
-✓ Filtering complete
+- Filtering complete
 
 Stage 2: Calculating derived values...
 Calculated derived values for 947 transactions
 Sample: Amount $1234.56, Tax $98.76, Discount $123.46 -> Final $1209.86
-✓ Transformation complete
+- Transformation complete
 
 Stage 3: Statistical analysis...
 === Transaction Statistics ===
@@ -397,7 +415,7 @@ Average Transaction: $798.98
 Highest Transaction: $2156.78 (Customer: CUST_42)
 Lowest Transaction: $10.80 (Customer: CUST_17)
 High-Value Transactions (>$500): 634 (67.0%)
-✓ Statistics complete
+- Statistics complete
 
 Stage 4: Sorting and ranking...
 === Sorting and Ranking Analysis ===
@@ -433,15 +451,15 @@ West Region:
   3. Customer CUST_21 - $1701.23
 
 Multi-criteria sorting completed using comparison functions
-✓ Sorting complete
+- Sorting complete
 
 === Algorithm Performance Summary ===
-✓ copy_if: Efficient filtering using function objects
-✓ transform: In-place calculations with transformation objects
-✓ accumulate: Statistical aggregation with helper functions
-✓ count_if: Conditional counting using predicate objects
-✓ minmax_element: Range analysis with simple comparisons
-✓ sort/partial_sort: Optimized ordering with comparison functions
+- copy_if: Efficient filtering using function objects
+- transform: In-place calculations with transformation objects
+- accumulate: Statistical aggregation with helper functions
+- count_if: Conditional counting using predicate objects
+- minmax_element: Range analysis with simple comparisons
+- sort/partial_sort: Optimized ordering with comparison functions
 
 === Pipeline Processing Complete ===
 Review your algorithm choices and function object implementations!
